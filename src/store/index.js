@@ -2,13 +2,16 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import mutations from './mutations'
 import actions from './actions'
+import getters from './getters'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isActiveMsg: true
+    isActiveMsg: true,
+    user: {}
   },
   mutations,
-  actions
+  actions,
+  getters
 })
