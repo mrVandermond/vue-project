@@ -31,6 +31,12 @@ export default {
         this.$router.replace('login');
       })
     }
+  },
+  beforeRouteUpdate(to, from, next) {
+    if (to.name == 'profile') {
+      this.$store.commit('SET_USER');
+    }
+    next();
   }
 }
 </script>

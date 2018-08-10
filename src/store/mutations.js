@@ -1,10 +1,11 @@
-import firebase from 'firebase'
-
 export default {
   SET_ACTIVE_MSG (state) {
     state.isActiveMsg = !state.isActiveMsg;
   },
-  SET_USER (state) {
-    state.user = firebase.auth().currentUser;
+  SET_ACTIVE_EDIT (state) {
+    state.isActiveEdit = !state.isActiveEdit;
+  },
+  TEST (state, data) {
+    state.test = data.test
   }
 }

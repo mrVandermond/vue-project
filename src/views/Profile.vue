@@ -2,98 +2,60 @@
   <div class="profile profile_position">
     <div class="profile__left-column">
       <div class="profile__avatar">
-        <img class="profile__img" v-bind:src="getUrlAvatar" v-if="getUrlAvatar" v-bind:key="'avatarURL'" alt="avatar">
+        <img class="profile__img" v-bind:src="userURL" v-if="userURL" v-bind:key="'avatarURL'" alt="avatar">
         <img class="profile__img" src="@/assets/user.png" v-else v-bind:key="'defaultavatar'" alt="avatar">
         <button class="profile__button" v-on:click="activeEdit">Изменить данные</button>
+        <button class="profile__button" v-on:click="updateUserPhoto">Изменить фото</button>
       </div>
     </div><!--
     --><div class="profile__right-column">
       <p class="profile__name profile__text">
         <span class="profile__subtext">Ваше имя:</span>
-        <input
-          type="text"
-          placeholder="Имя пользователя"
-          class="profile__input"
-          v-if="isActiveEdit"
-          v-model="userName">
-        <span class="profile__user-val" v-else>{{ getNameUser }}</span>
+        <span class="profile__user-val">{{ userName }}</span>
       </p>
       <p class="profile__email profile__text">
         <span class="profile__subtext">Ваш Email:</span>
-        <input
-          type="text"
-          placeholder="Email"
-          class="profile__input"
-          v-if="isActiveEdit"
-          v-model="userEmail">  
-        <span class="profile__user-val" v-else>{{ getUser.email }}</span>
+        <span class="profile__user-val">{{ userEmail }}</span>
       </p>
       <p class="profile__phone profile__text">
         <span class="profile__subtext">Ваш номер телефона:</span>
-        <input
-          type="text"
-          placeholder="Номер телефона"
-          class="profile__input"
-          v-if="isActiveEdit"
-          v-model="userPhone">
-        <span class="profile__user-val" v-else>{{ getPhoneUser }}</span>
+        <span class="profile__user-val">{{ userPhone }}</span>
       </p>
-      <p class="profile__wrap-button" v-if="isActiveEdit">
-        <button class="profile__button" v-on:click="saveDataUser">Сохранить</button>
-      </p>
+      <ProfileEdit
+        v-if="$store.state.isActiveEdit"
+        v-on:updateProfile="updateProfile"/>
     </div>
     <div class="profile__clearfix"></div>
   </div>
 </template>
 
 <script>
+import ProfileEdit from '@/components/ProfileEdit'
+import firebase from 'firebase'
 
 export default {
   data () {
     return {
-      isActiveEdit: false,
-      userName: '',
-      userEmail: '',
-      userPhone: ''
+      userName: firebase.auth().currentUser.displayName || 'Имя пользователя',
+      userEmail: firebase.auth().currentUser.email || 'Email пользователя',
+      userPhone: firebase.auth().currentUser.phoneNumber || 'Телефон пользователя',
+      userURL: firebase.auth().currentUser.photoURL,
     }
   },
-  computed: {
-    getUser () {
-      return this.$store.getters.getUser;
-    },
-    getNameUser () {
-      return this.getUser.displayName || 'Имя пользователя';
-    },
-    getPhoneUser () {
-      return this.getUser.phoneNumber || 'Номер телефона пользователя';
-    },
-    getUrlAvatar () {
-      return this.getUser.photoURL || false;
-    }
+  components: {
+    ProfileEdit
   },
   methods: {
     activeEdit () {
-      this.userName = this.getUser.displayName || '';
-      this.userEmail = this.getUser.email || '';
-      this.userPhone = this.getUser.phoneNumber || '';
-      this.isActiveEdit = true;
+      this.$store.commit('SET_ACTIVE_EDIT');
     },
-    saveDataUser () {
-      if (this.userName.length > 0) {
-        this.$store.dispatch('updateDisplayName', {
-          displayName: this.userName
-        });
-      }
-      if (this.userEmail.length > 0) {
-        this.$store.dispatch('updateEmail', {
-          email: this.userEmail
-        });
-      }
-      if (this.userPhone.length > 0) {
-        this.$store.dispatch('updatePhone', {
-          phone: this.userPhone
-        })
-      }
+    updateProfile () {
+      this.userName = firebase.auth().currentUser.displayName || 'Имя пользователя';
+      this.userEmail = firebase.auth().currentUser.email || 'Email пользователя';
+      this.userPhone = firebase.auth().currentUser.phoneNumber || 'Телефон пользователя';
+    },
+    updateUserPhoto () {
+
     }
   }
 }
@@ -145,13 +107,5 @@ export default {
 }
 .profile__button:hover {
   background-color: rgba(12, 79, 134, 0.473);
-}
-.profile__wrap-button {
-  text-align: center;
-}
-.profile__input {
-  padding: 10px;
-  border: 1px solid #0c4f86;
-  border-radius: 2px;
 }
 </style>
