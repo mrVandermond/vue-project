@@ -17,10 +17,6 @@
         <span class="profile__subtext">Ваш Email:</span>
         <span class="profile__user-val">{{ userEmail }}</span>
       </p>
-      <p class="profile__phone profile__text">
-        <span class="profile__subtext">Ваш номер телефона:</span>
-        <span class="profile__user-val">{{ userPhone }}</span>
-      </p>
       <ProfileEdit
         v-if="$store.state.isActiveEdit"
         v-on:updateProfile="updateProfile"/>
@@ -38,7 +34,6 @@ export default {
     return {
       userName: firebase.auth().currentUser.displayName || 'Имя пользователя',
       userEmail: firebase.auth().currentUser.email || 'Email пользователя',
-      userPhone: firebase.auth().currentUser.phoneNumber || 'Телефон пользователя',
       userURL: firebase.auth().currentUser.photoURL,
     }
   },
@@ -52,7 +47,6 @@ export default {
     updateProfile () {
       this.userName = firebase.auth().currentUser.displayName || 'Имя пользователя';
       this.userEmail = firebase.auth().currentUser.email || 'Email пользователя';
-      this.userPhone = firebase.auth().currentUser.phoneNumber || 'Телефон пользователя';
     },
     updateUserPhoto () {
 

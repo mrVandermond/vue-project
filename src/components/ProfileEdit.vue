@@ -10,11 +10,6 @@
       class="edit__input"
       placeholder="Email пользователя"
       v-model="newUserEmail">
-    <input
-      type="text"
-      class="edit__input"
-      placeholder="Телефон пользователя"
-      v-model="newUserPhone">
     <p class="edit__wrap-button">
       <button
         class="edit__button"
@@ -30,16 +25,14 @@ export default {
   data () {
     return {
       newUserName: firebase.auth().currentUser.displayName || '',
-      newUserEmail: firebase.auth().currentUser.email || '',
-      newUserPhone: firebase.auth().currentUser.phoneNumber || '',
+      newUserEmail: firebase.auth().currentUser.email || ''
     }
   },
   methods: {
     updateProfile () {
       this.$store.dispatch('updateProfile', {
         displayName: this.newUserName,
-        email: this.newUserEmail,
-        phoneNumber: this.newUserPhone
+        email: this.newUserEmail
       }).then(
         () => {
           this.$store.commit('SET_ACTIVE_EDIT');

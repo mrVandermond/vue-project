@@ -5,8 +5,7 @@ export default {
   updateProfile ({state}, data) {
     return new Promise((resolve, reject) => {
       firebase.auth().currentUser.updateProfile({
-        displayName: data.displayName,
-        phoneNumber: data.phoneNumber
+        displayName: data.displayName
       }).then(
         () => {
           firebase.auth().currentUser.updateEmail(data.email).then(
