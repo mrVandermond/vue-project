@@ -30,7 +30,6 @@ export default {
         () => {
           this.$router.replace('home');
           this.$store.commit('SET_ACTIVE_MSG');
-          this.$store.commit('SET_USER');
         },
         (e) => {
           this.$store.commit('SET_ACTIVE_MSG');

@@ -5,7 +5,10 @@ export default {
   SET_ACTIVE_EDIT (state) {
     state.isActiveEdit = !state.isActiveEdit;
   },
-  TEST (state, data) {
-    state.test = data.test
+  SET_COUNT_POST (state, data) {
+    state.countPost = data.countPost;
+  },
+  SET_POST_LIST (state, data) {
+    state.postList = data.slice(1);
   }
 }

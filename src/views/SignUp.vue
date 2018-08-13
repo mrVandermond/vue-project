@@ -29,8 +29,7 @@ export default {
       firebase.auth().createUserWithEmailAndPassword(data.email, data.password).then(
         () => {
           this.$router.replace('login');
-          this.$store.commit('SET_ACTIVE_MSG');
-          this.$store.commit('SET_USER');          
+          this.$store.commit('SET_ACTIVE_MSG');          
         },
         (e) => {
           this.$store.commit('SET_ACTIVE_MSG');

@@ -10,7 +10,8 @@ export default new Vuex.Store({
   strict: true,
   state: {
     isActiveMsg: true,
-    isActiveEdit: false
+    isActiveEdit: false,
+    postList: []
   },
   mutations,
   actions,

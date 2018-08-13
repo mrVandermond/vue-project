@@ -32,11 +32,8 @@ export default {
       })
     }
   },
-  beforeRouteUpdate(to, from, next) {
-    if (to.name == 'profile') {
-      this.$store.commit('SET_USER');
-    }
-    next();
+  beforeMount () {
+    this.$store.dispatch('getPosts');
   }
 }
 </script>
@@ -52,6 +49,7 @@ export default {
 .home__content {
   width: 1000px;
   margin: 0 auto;
+  position: relative;
 }
 .menu__list {
   padding: 0;

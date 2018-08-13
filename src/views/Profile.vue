@@ -5,18 +5,19 @@
         <img class="profile__img" v-bind:src="userURL" v-if="userURL" v-bind:key="'avatarURL'" alt="avatar">
         <img class="profile__img" src="@/assets/user.png" v-else v-bind:key="'defaultavatar'" alt="avatar">
         <button class="profile__button" v-on:click="activeEdit">Изменить данные</button>
-        <button class="profile__button" v-on:click="updateUserPhoto">Изменить фото</button>
       </div>
     </div><!--
     --><div class="profile__right-column">
-      <p class="profile__name profile__text">
-        <span class="profile__subtext">Ваше имя:</span>
-        <span class="profile__user-val">{{ userName }}</span>
-      </p>
-      <p class="profile__email profile__text">
-        <span class="profile__subtext">Ваш Email:</span>
-        <span class="profile__user-val">{{ userEmail }}</span>
-      </p>
+      <div class="profile__wrap-info">
+        <p class="profile__name profile__text">
+          <span class="profile__subtext">Ваше имя:</span>
+          <span class="profile__user-val">{{ userName }}</span>
+        </p>
+        <p class="profile__email profile__text">
+          <span class="profile__subtext">Ваш Email:</span>
+          <span class="profile__user-val">{{ userEmail }}</span>
+        </p>
+      </div>
       <ProfileEdit
         v-if="$store.state.isActiveEdit"
         v-on:updateProfile="updateProfile"/>
@@ -47,9 +48,6 @@ export default {
     updateProfile () {
       this.userName = firebase.auth().currentUser.displayName || 'Имя пользователя';
       this.userEmail = firebase.auth().currentUser.email || 'Email пользователя';
-    },
-    updateUserPhoto () {
-
     }
   }
 }
@@ -81,6 +79,11 @@ export default {
   width: 150px;
   height: 150px;
   display: inline-block;
+}
+.profile__wrap-info {
+  padding: 10px 0;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
 }
 .profile__text {
   padding: 15px 0 15px 10px;
