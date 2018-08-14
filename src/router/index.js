@@ -28,7 +28,7 @@ let router = new Router({
             {
               path: '',
               name: 'home',
-              component: BlogList,
+              redirect: '1',
               meta: {
                 blog: true
               }
