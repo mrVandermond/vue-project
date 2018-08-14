@@ -1,5 +1,5 @@
 <template>
-  <div class="blog blog_position" v-if="$store.state.postList.length">
+  <div class="blog blog_position" v-if="$store.state.countPost">
     <ul class="blog__list">
       <BlogItem
       v-for="post in posts"
@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     posts () {
-      return this.$store.state.postList;
+      return this.$root.posts;
     }
   },
   methods: {

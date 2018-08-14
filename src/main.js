@@ -2,19 +2,25 @@ import Vue from 'vue'
 import App from '@/App'
 import router from '@/router'
 import store from '@/store'
+import Vuefire from 'vuefire'
 import firebase from 'firebase'
 import firebaseConfig from '@/firebase.config.js'
 
 Vue.config.productionTip = false
 firebase.initializeApp(firebaseConfig)
 
-let VueApp;
+Vue.use(Vuefire)
+
+var VueApp;
 
 firebase.auth().onAuthStateChanged(() => {
   if (!VueApp) {
     VueApp = new Vue({
       router,
       store,
+      firebase: {
+        posts: firebase.database().ref('posts')
+      },
       render: h => h(App)
     }).$mount('#app');
   }

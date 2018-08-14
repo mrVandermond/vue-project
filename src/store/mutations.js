@@ -8,7 +8,7 @@ export default {
   SET_COUNT_POST (state, data) {
     state.countPost = data.countPost;
   },
-  SET_POST_LIST (state, data) {
-    state.postList = data.slice(1);
+  SET_COUNT_PAGE(state) {
+    state.countPage = Math.ceil(state.countPost / state.postPerPage);
   }
 }

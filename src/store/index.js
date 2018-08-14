@@ -11,7 +11,9 @@ export default new Vuex.Store({
   state: {
     isActiveMsg: true,
     isActiveEdit: false,
-    postList: []
+    countPost: 0,
+    postPerPage: 10,
+    countPage: 0
   },
   mutations,
   actions,

@@ -33,7 +33,7 @@ export default {
     }
   },
   beforeMount () {
-    this.$store.dispatch('getPosts');
+    this.$store.dispatch('getCountPost');
   }
 }
 </script>

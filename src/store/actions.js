@@ -10,15 +10,16 @@ export default {
         () => {
           firebase.auth().currentUser.updateEmail(data.email).then(
             () => resolve(),
-            () => reject()
+            (e) => reject(e)
           );
         },
         () => reject()
       );
     });
   },
-  addNewPost ({state, commit}, data) {
+  addNewPost ({commit}, data) {
     return new Promise((resolve, reject) => {
+      if (!database) reject();
       database().ref('/countPost/').on('value', (snapshot) => {
         let countPost = snapshot.val();
         resolve(countPost);
@@ -26,6 +27,7 @@ export default {
     }).then(
       (countPost) => {
         return new Promise((resolve, reject) => {
+          commit('SET_COUNT_POST', {countPost: countPost});
           countPost++;
           database().ref('/countPost/').set(countPost);
           database().ref('/posts/' + countPost).set({
@@ -36,24 +38,17 @@ export default {
           if (!database()) reject()
           console.log('success added');
           resolve();
-        })
+        });
       },
       (e) => console.warn(e.message)
     )
   },
-  getPosts ({state, commit}) {
-    return new Promise((resolve, reject) => {
-      database().ref('/posts/').on('value', (snapshot) => {
-        let post = snapshot.val();
-        resolve(post);
-      });
-      if (!database) reject();
-    }).then(
-      (post) => {
-        commit('SET_POST_LIST', post);
-        console.log('success get');
-      },
-      (e) => console.warn(e)
-    )
+  getCountPost ({commit}) {
+    var countPost = 0;
+    database().ref('countPost').on('value', (snapshot) => {
+      countPost = snapshot.val();
+      commit('SET_COUNT_POST', {countPost: countPost});
+      commit('SET_COUNT_PAGE');
+    });
   }
 }
