@@ -1,21 +1,26 @@
 <template>
   <div class="blog blog_position" v-if="$store.state.countPost">
-    <ul class="blog__list">
-      <BlogItem
-      v-for="post in posts"
-      v-bind:key="post.pubdate"
-      v-bind:post="post"/>
-      <div class="blog__new-post">
-        <textarea class="blog__text-post" placeholder="Текст поста" v-model="textNewPost"></textarea>
-        <button class="blog__button" v-on:click="addNewPost">Опубликовать</button>
-      </div>
-    </ul>
+    <div class="blog__pagination">
+      <router-link
+        class="blog__left-pagination"
+        v-if="isActiveLeftPage"
+        v-bind:to="'/home/' + leftPage"
+        >&lt; prev</router-link>
+      <a class="blog__left-pagination_disabled" disabled v-else>&lt; prev</a>
+      <span class="blog__count-page">{{ currentPage }} / {{ countPage }}</span>
+      <router-link
+        class="blog__right-pagination"
+        v-if="isActiveRightPage"
+        v-bind:to="'/home/' + rightPage"
+        >next &gt;</router-link>
+      <a class="blog__right-pagination_disabled" disabled v-else>next &gt;</a>
+    </div>
+    <router-view/>
   </div>
   <img src="@/assets/preloader.gif" alt="preloader" class="blog__preloader" v-else>
 </template>
 
 <script>
-import firebase from 'firebase/app'
 import BlogItem from '@/components/BlogItem'
 
 export default {
@@ -28,18 +33,32 @@ export default {
     BlogItem
   },
   computed: {
-    posts () {
-      return this.$root.posts;
+    currentPage () {
+      return this.$store.state.currentPage;
+    },
+    countPage () {
+      return this.$store.state.countPage;
+    },
+    leftPage () {
+      return String(this.currentPage == 1 ? this.currentPage : this.currentPage - 1);
+    },
+    rightPage () {
+      return String(this.currentPage == this.countPage ? this.countPage : this.currentPage + 1);
+    },
+    isActiveLeftPage () {
+      return this.currentPage == 1 ? false : true;
+    },
+    isActiveRightPage () {
+      return this.currentPage == this.countPage ? false : true;
     }
   },
-  methods: {
-    addNewPost () {
-      this.$store.dispatch('addNewPost', {
-        text: this.textNewPost,
-        pubdate: Date.now(),
-        author: firebase.auth().currentUser.displayName
-      });
-    }
+  beforeRouteUpdate (to, from, next) {
+    var typeClick = 'left';
+    if (Number(to.params.page) > this.$store.state.currentPage) typeClick = 'right';
+    this.$store.dispatch('getPost', {
+      typeClick: typeClick
+    });
+    next();
   }
 }
 </script>
@@ -88,5 +107,37 @@ export default {
 }
 .blog__button:hover {
   background-color: rgba(12, 79, 134, 0.473);
+}
+.blog__pagination {
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+}
+.blog__left-pagination,
+.blog__right-pagination,
+.blog__left-pagination_disabled,
+.blog__right-pagination_disabled {
+  margin: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+  color: #0c4f86;
+  border: 1px solid #0c4f86;
+  border-radius: 2px; 
+  padding: 5px;
+}
+.blog__left-pagination:hover,
+.blog__right-pagination:hover {
+  background-color: rgba(12, 79, 134, 0.473);
+}
+.blog__left-pagination_disabled,
+.blog__right-pagination_disabled {
+  color: #797979;
+  border: 1px solid #797979;
+  cursor: pointer;
+}
+.blog__left-pagination_disabled:hover,
+.blog__right-pagination_disabled:hover {
+  background-color: hsla(0, 0%, 47%, 0.473);
 }
 </style>

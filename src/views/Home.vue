@@ -22,18 +22,40 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+
+var path = window.location.pathname.split('/');
+var numPage = Number(path[path.length - 1]);
+var componentName = path[path.length - 2];
 
 export default {
   methods: {
     logout () {
       firebase.auth().signOut().then(() => {
-        this.$router.replace('login');
+        this.$router.replace('/login');
       })
     }
   },
+  // reset current page to 1
+  beforeRouteUpdate (to, from, next) {
+    if (!to.meta.blog) {
+      this.$store.commit('SET_CURRENT_PAGE', {
+        numPage: 1
+      })
+    }
+    next();
+  },
   beforeMount () {
     this.$store.dispatch('getCountPost');
+    firebase.database().ref('/posts/').on('child_added', () => {
+      this.$store.dispatch('getCountPost');
+    });
+
+    if (componentName == 'home' && this.$store.state.currentPage != numPage) {
+      this.$store.commit('SET_CURRENT_PAGE', {
+        numPage: numPage
+      })
+    }
   }
 }
 </script>

@@ -27,14 +27,14 @@ export default {
     }).then(
       (countPost) => {
         return new Promise((resolve, reject) => {
-          commit('SET_COUNT_POST', {countPost: countPost});
-          countPost++;
-          database().ref('/countPost/').set(countPost);
-          database().ref('/posts/' + countPost).set({
+          database().ref('/posts/' + (countPost + 1)).set({
             text: data.text,
             pubdate: data.pubdate,
-            author: data.author
+            author: data.author,
+            id: countPost + 1
           });
+          countPost++;
+          database().ref('/countPost/').set(countPost);
           if (!database()) reject()
           console.log('success added');
           resolve();
@@ -43,12 +43,31 @@ export default {
       (e) => console.warn(e.message)
     )
   },
-  getCountPost ({commit}) {
+  getCountPost ({state, commit}) {
     var countPost = 0;
-    database().ref('countPost').on('value', (snapshot) => {
+    database().ref('/countPost/').on('value', (snapshot) => {
       countPost = snapshot.val();
-      commit('SET_COUNT_POST', {countPost: countPost});
-      commit('SET_COUNT_PAGE');
+      if (countPost != state.countPost) {
+        commit('SET_COUNT_POST', {countPost: countPost});
+        commit('SET_COUNT_PAGE');
+      }
     });
+  },
+  getPost ({state, commit}, data) {
+    return new Promise((resolve, reject) => {
+      if (data) {
+        commit('SET_CURRENT_PAGE', {typeClick: data.typeClick});
+        commit('SET_CURRENT_INDEX_POST', {typeClick: data.typeClick});
+        
+      }
+      var start = state.currentIndexPost;
+      var end = start + state.postPerPage - 1;
+      if (!database) reject();
+      database().ref('posts').orderByChild('id').startAt(start).endAt(end).on('value', (snapshot) => {
+        let posts = snapshot.exportVal();
+        commit('SET_ACTIVE_POSTS', {posts: posts});
+        resolve();
+       });
+    })
   }
 }

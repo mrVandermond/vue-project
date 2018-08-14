@@ -7,6 +7,7 @@ import SignUp from '@/views/SignUp'
 import Home from '@/views/Home'
 import HomeContent from '@/views/HomeContent'
 import Profile from '@/views/Profile'
+import BlogList from '@/components/BlogList'
 
 Vue.use(Router)
 
@@ -14,42 +15,39 @@ let router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
-    {
-      path: '*',
-      redirect: '/login'
-    },
-    {
-      path: '/',
-      redirect: '/login'
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: Login
-    },
-    {
-      path: '/sign-up',
-      name: 'sign-up',
-      component: SignUp
-    },
-    {
-      path: '/home',
-      component: Home,
+    {path: '*', redirect: '/login'},
+    {path: '/', redirect: '/login'},
+    {path: '/login', name: 'login', component: Login},
+    {path: '/sign-up', name: 'sign-up', component: SignUp},
+    {path: '/home', component: Home, meta: {requiresAuth: true},
       children: [
         {
           path: '',
-          name: 'home',
-          component: HomeContent
+          component: HomeContent,
+          children: [
+            {
+              path: '',
+              name: 'home',
+              component: BlogList,
+              meta: {
+                blog: true
+              }
+            },
+            {
+              path: ':page',
+              component: BlogList,
+              meta: {
+                blog: true
+              }
+            }
+          ]
         },
         {
           path: 'profile',
           name: 'profile',
           component: Profile
         }
-      ],
-      meta: {
-        requiresAuth: true
-      }
+      ]
     }
   ]
 })

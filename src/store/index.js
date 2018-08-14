@@ -13,7 +13,10 @@ export default new Vuex.Store({
     isActiveEdit: false,
     countPost: 0,
     postPerPage: 10,
-    countPage: 0
+    countPage: 0,
+    currentPage: 1,
+    currentIndexPost: 1,
+    postList: {}
   },
   mutations,
   actions,

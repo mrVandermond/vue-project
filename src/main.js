@@ -18,9 +18,6 @@ firebase.auth().onAuthStateChanged(() => {
     VueApp = new Vue({
       router,
       store,
-      firebase: {
-        posts: firebase.database().ref('posts')
-      },
       render: h => h(App)
     }).$mount('#app');
   }
