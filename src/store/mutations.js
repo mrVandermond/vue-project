@@ -2,6 +2,9 @@ export default {
   SET_ACTIVE_MSG (state) {
     state.isActiveMsg = !state.isActiveMsg;
   },
+  SET_ACTIVE_CHANGE_PASSWORD (state) {
+    state.isActiveChangePassword = !state.isActiveChangePassword;
+  },
   SET_ACTIVE_EDIT (state) {
     state.isActiveEdit = !state.isActiveEdit;
   },

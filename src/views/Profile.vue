@@ -4,8 +4,9 @@
       <div class="profile__avatar">
         <img class="profile__img" v-if="userPhotoURL" v-bind:src="userPhotoURL" v-bind:key="'avatarURL'" alt="avatar">
         <img class="profile__img" src="@/assets/user.png" v-else v-bind:key="'defaultavatar'" alt="avatar">
-        <button class="profile__button" v-on:click="activeEdit">Изменить данные</button>
-        <label class="profile__button profile__label">Изменить фотографию<input type="file" class="profile__input" v-on:change="changePhoto"></label>
+        <button class="base-button" v-on:click="activeEdit">Изменить данные</button>
+        <button class="base-button" v-on:click="activeChangePassword">Изменить пароль</button>
+        <label class="base-button profile__label">Изменить фотографию<input type="file" class="profile__input" v-on:change="changePhoto"></label>
       </div>
     </div><!--
     --><div class="profile__right-column">
@@ -22,6 +23,9 @@
       <ProfileEdit
         v-if="$store.state.isActiveEdit"
         v-on:updateProfile="updateProfile"/>
+      <ProfileChangePassword
+        v-if="$store.state.isActiveChangePassword"
+        />
     </div>
     <div class="profile__clearfix"></div>
   </div>
@@ -29,6 +33,7 @@
 
 <script>
 import ProfileEdit from '@/components/ProfileEdit'
+import ProfileChangePassword from '@/components/ProfileChangePassword'
 import firebase from 'firebase'
 
 export default {
@@ -39,7 +44,8 @@ export default {
     }
   },
   components: {
-    ProfileEdit
+    ProfileEdit,
+    ProfileChangePassword
   },
   computed: {
     userPhotoURL () {
@@ -49,6 +55,9 @@ export default {
   methods: {
     activeEdit () {
       this.$store.commit('SET_ACTIVE_EDIT');
+    },
+    activeChangePassword () {
+      this.$store.commit('SET_ACTIVE_CHANGE_PASSWORD');
     },
     updateProfile () {
       this.userName = firebase.auth().currentUser.displayName || 'Имя пользователя';

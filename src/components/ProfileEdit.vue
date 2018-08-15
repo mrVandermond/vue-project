@@ -2,17 +2,17 @@
   <div class="edit edit_position">
     <input
       type="text"
-      class="edit__input"
+      class="base-input"
       placeholder="Имя польлзователя"
       v-model="newUserName">
     <input
       type="text"
-      class="edit__input"
+      class="base-input"
       placeholder="Email пользователя"
       v-model="newUserEmail">
     <p class="edit__wrap-button">
       <button
-        class="edit__button"
+        class="base-button"
         v-on:click="updateProfile">Сохранить</button>
     </p>
   </div>
@@ -52,26 +52,6 @@ export default {
   border-bottom: 1px solid #ddd;
   padding: 10px 0;
   margin-top: 20px;
-}
-.edit__input {
-  width: 300px;
-  padding: 10px;
-  margin: 10px 0;
-  display: block;
-  border: 1px solid #0c4f86;
-  border-radius: 2px;
-}
-.edit__button {
-  display: inline-block;
-  margin-top: 20px;
-  border: 1px solid #0c4f86;
-  border-radius: 2px;
-  background-color: #fff;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-.edit__button:hover {
-  background-color: rgba(12, 79, 134, 0.473);
 }
 .edit__wrap-button {
   width: 300px;

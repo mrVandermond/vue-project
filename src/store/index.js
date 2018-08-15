@@ -11,6 +11,7 @@ export default new Vuex.Store({
   state: {
     isActiveMsg: true,
     isActiveEdit: false,
+    isActiveChangePassword: false,
     countPost: 0,
     postPerPage: 10,
     countPage: 0,

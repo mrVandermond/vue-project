@@ -2,7 +2,7 @@ import firebase, { database, storage } from 'firebase/app'
 
 export default {
   /* eslint-disable */
-  updateProfile ({state}, data) {
+  updateProfile ({}, data) {
     return new Promise((resolve, reject) => {
       firebase.auth().currentUser.updateProfile({
         displayName: data.displayName
@@ -16,6 +16,23 @@ export default {
         () => reject()
       );
     });
+  },
+  changePassword ({}, data) {
+    return new Promise((resolve, reject) => {
+      let credential = firebase.auth.EmailAuthProvider.credential(firebase.auth().currentUser.email, data.oldPassword);
+
+      firebase.auth().currentUser.reauthenticateAndRetrieveDataWithCredential(credential).then(
+        () => {
+          firebase.auth().currentUser.updatePassword(data.newPassword);
+          console.log('success change pssword');
+          resolve();
+        },
+        (e) => {
+          console.warn(e.message);
+          reject(e);
+        }
+      );
+    })
   },
   addNewPost ({commit}, data) {
     return new Promise((resolve, reject) => {
