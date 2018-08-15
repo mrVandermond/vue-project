@@ -1,5 +1,6 @@
 <template>
   <div class="auth auth_position">
+    <h2 class="auth__title">{{ nameAuth }}</h2>
     <input class="auth__input" type="text" placeholder="Email" v-model="email">
     <input class="auth__input" type="password" placeholder="Password" v-model="password">
     <button 
@@ -13,6 +14,7 @@
 <script>
 export default {
   props: {
+    nameAuth: String,
     msg: Object,
     pathLink: String,
   },
@@ -45,6 +47,9 @@ export default {
   width: 300px;
   margin: 0 auto;
   margin-top: 100px;
+}
+.auth__title {
+  text-align: center;
 }
 .auth__input {
   width: 100%;

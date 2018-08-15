@@ -1,5 +1,6 @@
 <template>
   <base-auth
+    v-bind:nameAuth="nameAuth"
     v-bind:msg="msg"
     v-bind:pathLink="pathLink"
     v-on:auth="auth"
@@ -13,6 +14,7 @@ import firebase from 'firebase'
 export default {
   data () {
     return {
+      nameAuth: 'Регистрация',
       msg: {
         msgButton: 'Регистрация',
         msgText: 'Вы уже зарегестрированы? Тогда ',
