@@ -8,10 +8,10 @@ export default {
   SET_COUNT_POST (state, data) {
     state.countPost = data.countPost;
   },
-  SET_COUNT_PAGE(state) {
+  SET_COUNT_PAGE (state) {
     state.countPage = Math.ceil(state.countPost / state.postPerPage);
   },
-  SET_CURRENT_PAGE(state, data) {
+  SET_CURRENT_PAGE (state, data) {
     if (data.typeClick) {
       if (data.typeClick == 'left') state.currentPage--;
       else if (data.typeClick == 'right') state.currentPage++; 
@@ -24,11 +24,14 @@ export default {
       }
     }
   },
-  SET_CURRENT_INDEX_POST(state, data) {
+  SET_CURRENT_INDEX_POST (state, data) {
     if (data.typeClick == 'left') state.currentIndexPost -= state.postPerPage;
     else if (data.typeClick == 'right') state.currentIndexPost += state.postPerPage;
   },
-  SET_ACTIVE_POSTS(state, data) {
+  SET_ACTIVE_POSTS (state, data) {
     state.postList = data.posts;
+  },
+  SET_USER_PHOTO_URL (state, data) {
+    state.userPhotoURL = data.photoURL;
   }
 }

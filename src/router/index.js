@@ -22,6 +22,11 @@ let router = new Router({
     {path: '/home', component: Home, meta: {requiresAuth: true},
       children: [
         {
+          path: 'profile',
+          name: 'profile',
+          component: Profile
+        },
+        {
           path: '',
           component: HomeContent,
           children: [
@@ -41,11 +46,6 @@ let router = new Router({
               }
             }
           ]
-        },
-        {
-          path: 'profile',
-          name: 'profile',
-          component: Profile
         }
       ]
     }

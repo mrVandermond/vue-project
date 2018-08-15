@@ -1,4 +1,4 @@
-import firebase, { database } from 'firebase/app'
+import firebase, { database, storage } from 'firebase/app'
 
 export default {
   /* eslint-disable */
@@ -58,7 +58,6 @@ export default {
       if (data) {
         commit('SET_CURRENT_PAGE', {typeClick: data.typeClick});
         commit('SET_CURRENT_INDEX_POST', {typeClick: data.typeClick});
-        
       }
       var start = state.currentIndexPost;
       var end = start + state.postPerPage - 1;
@@ -68,6 +67,31 @@ export default {
         commit('SET_ACTIVE_POSTS', {posts: posts});
         resolve();
        });
+    })
+  },
+  uploadPhoto ({commit}, data) {
+    return new Promise((resolve, reject) => {
+      storage().ref('users_img/').child(data.file.name).put(data.file).then(
+        () => {
+          console.log('success upload photo');
+          storage().ref('users_img/').child(data.file.name).getDownloadURL().then(
+            (url) => {
+              firebase.auth().currentUser.updateProfile({
+                photoURL: url
+              });
+              commit('SET_USER_PHOTO_URL', {
+                photoURL: url
+              });
+            },
+            (e) => console.warn(e.message)
+          );
+          resolve();
+        },
+        (e) => {
+          console.warn(e.message)
+          reject();
+        }
+      );
     })
   }
 }

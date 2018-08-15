@@ -2,9 +2,10 @@
   <div class="profile profile_position">
     <div class="profile__left-column">
       <div class="profile__avatar">
-        <img class="profile__img" v-bind:src="userURL" v-if="userURL" v-bind:key="'avatarURL'" alt="avatar">
+        <img class="profile__img" v-if="userPhotoURL" v-bind:src="userPhotoURL" v-bind:key="'avatarURL'" alt="avatar">
         <img class="profile__img" src="@/assets/user.png" v-else v-bind:key="'defaultavatar'" alt="avatar">
         <button class="profile__button" v-on:click="activeEdit">Изменить данные</button>
+        <label class="profile__button profile__label">Изменить фотографию<input type="file" class="profile__input" v-on:change="changePhoto"></label>
       </div>
     </div><!--
     --><div class="profile__right-column">
@@ -34,12 +35,16 @@ export default {
   data () {
     return {
       userName: firebase.auth().currentUser.displayName || 'Имя пользователя',
-      userEmail: firebase.auth().currentUser.email || 'Email пользователя',
-      userURL: firebase.auth().currentUser.photoURL,
+      userEmail: firebase.auth().currentUser.email || 'Email пользователя'
     }
   },
   components: {
     ProfileEdit
+  },
+  computed: {
+    userPhotoURL () {
+      return this.$store.state.userPhotoURL == '' ? false : this.$store.state.userPhotoURL;
+    }
   },
   methods: {
     activeEdit () {
@@ -48,7 +53,18 @@ export default {
     updateProfile () {
       this.userName = firebase.auth().currentUser.displayName || 'Имя пользователя';
       this.userEmail = firebase.auth().currentUser.email || 'Email пользователя';
+    },
+    changePhoto () {
+      let file = document.querySelector('.profile__input').files[0];
+      this.$store.dispatch('uploadPhoto', {
+        file: file
+      });
     }
+  },
+  beforeMount () {
+    this.$store.commit('SET_USER_PHOTO_URL', {
+      photoURL: firebase.auth().currentUser.photoURL
+    });
   }
 }
 </script>
@@ -104,5 +120,12 @@ export default {
 }
 .profile__button:hover {
   background-color: rgba(12, 79, 134, 0.473);
+}
+.profile__label {
+  color: #000;
+  font-size: 14px;
+}
+.profile__input {
+  display: none;
 }
 </style>

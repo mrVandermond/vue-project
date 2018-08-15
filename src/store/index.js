@@ -16,7 +16,8 @@ export default new Vuex.Store({
     countPage: 0,
     currentPage: 1,
     currentIndexPost: 1,
-    postList: {}
+    postList: {},
+    userPhotoURL: ''
   },
   mutations,
   actions,
