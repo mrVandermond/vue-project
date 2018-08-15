@@ -8,6 +8,15 @@ export default {
   SET_ACTIVE_EDIT (state) {
     state.isActiveEdit = !state.isActiveEdit;
   },
+  SET_ACTIVE_TOOLTIP (state, data) {
+    state.msgTooltip = data.msgTooltip;
+    state.typeTooltip = data.typeTooltip;
+    state.isActiveTooltip = !state.isActiveTooltip;
+  },
+  SET_ACTIVE_POPUP (state, data) {
+    state.msgPopUp = data.msgPopUp;
+    state.isActivePopUp = !state.isActivePopUp;
+  },
   SET_COUNT_POST (state, data) {
     state.countPost = data.countPost;
   },

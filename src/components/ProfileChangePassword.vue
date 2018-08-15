@@ -28,20 +28,27 @@
 </template>
 
 <script>
+import Tooltip from '@/components/Tooltip'
+
 export default {
   data () {
     return {
       oldPassword: '',
       newPassword: '',
-      repeatNewPassword: ''
+      repeatNewPassword: '',
     }
+  },
+  components: {
+    Tooltip
   },
   methods: {
     changePassword () {
       if (this.newPassword === this.repeatNewPassword) {
         if (this.newPassword.length < 6) {
-          // eslint-disable-next-line
-          console.warn('Пароль должен быть не менее 6 символов');
+          this.$store.commit('SET_ACTIVE_TOOLTIP', {
+            msgTooltip: 'Пароль должен быть не менее 6 символов',
+            typeTooltip: 'error'
+          });
         } else {
           this.$store.dispatch('changePassword', {
             newPassword: this.newPassword,
@@ -51,18 +58,26 @@ export default {
               this.oldPassword = '';
               this.newPassword = '';
               this.repeatNewPassword = '';
-              this.$store.commit('SET_ACTIVE_CHANGE_PASSWORD');
+              this.$store.commit('SET_ACTIVE_TOOLTIP', {
+                msgTooltip: 'Пароль успешно изменен',
+                typeTooltip: 'success'
+              });
             },
             (e) => {
               if (e.code == 'auth/wrong-password') {
-                console.log('Старый пароль был введен неправильно');
+                this.$store.commit('SET_ACTIVE_TOOLTIP', {
+                  msgTooltip: 'Старый пароль был введен неправильно',
+                  typeTooltip: 'error'
+                });
               }
             }
           );
         }
       } else {
-        // eslint-disable-next-line
-        console.warn('Пароли не совпадают');
+        this.$store.commit('SET_ACTIVE_TOOLTIP', {
+          msgTooltip: 'Пароли не совпадают',
+          typeTooltip: 'error'
+        });
       }
     }
   }

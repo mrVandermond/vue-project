@@ -16,12 +16,27 @@
       </nav>
     </div>
     <div class="home__content">
+      <transition name="tooltip">
+        <Tooltip
+          v-if="$store.state.isActiveTooltip"/>
+      </transition>
       <router-view/>
     </div>
+    <transition name="popup">
+      <PopUp
+        v-if="$store.state.isActivePopUp"/>
+    </transition>
+    <transition name="popup-overlay">
+      <div 
+        class="popup__overlay"
+        v-if="$store.state.isActivePopUp"></div>
+    </transition>
   </div>
 </template>
 
 <script>
+import Tooltip from '@/components/Tooltip'
+import PopUp from '@/components/PopUp'
 import firebase from 'firebase/app'
 
 var path = window.location.pathname.split('/');
@@ -29,11 +44,15 @@ var numPage = Number(path[path.length - 1]);
 var componentName = path[path.length - 2];
 
 export default {
+  components: {
+    Tooltip,
+    PopUp
+  },
   methods: {
     logout () {
-      firebase.auth().signOut().then(() => {
-        this.$router.replace('/login');
-      })
+      this.$store.commit('SET_ACTIVE_POPUP', {
+        msgPopUp: 'Подтвердите выход'
+      });
     }
   },
   // reset current page to 1
@@ -63,6 +82,7 @@ export default {
 <style>
 .home__menu {
   height: 60px;
+  margin-bottom: 10px;
   box-shadow: 0 1px 10px #0c4f86;
 }
 .home__logout {
@@ -95,5 +115,45 @@ export default {
 }
 .menu__link:hover {
   background-color: rgba(12, 79, 134, 0.473);
+}
+.tooltip-enter-active,
+.tooltip-leave-active {
+  transition: 0.3s;
+}
+.tooltip-enter,
+.tooltip-leave-to {
+  opacity: 0;
+  height: 0;
+}
+.tooltip-enter-to,
+.tooltip-leave {
+  opacity: 1;
+  height: 50px;
+}
+.popup-enter-active,
+.popup-leave-active {
+  transition: 0.3s;
+}
+.popup-enter,
+.popup-leave-to {
+  opacity: 0;
+  top: 40%;
+}
+.popup-enter-to,
+.popup-leave {
+  opacity: 1;
+  top: 45%;
+}
+.popup-overlay-leave-active,
+.popup-overlay-enter-active {
+  transition: 0.3s;
+}
+.popup-overlay-enter,
+.popup-overlay-leave-to {
+  opacity: 0;
+}
+.popup-overlay-enter-to,
+.popup-overlay-leave {
+  opacity: 1;
 }
 </style>

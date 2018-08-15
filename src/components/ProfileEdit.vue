@@ -37,9 +37,17 @@ export default {
         () => {
           this.$store.commit('SET_ACTIVE_EDIT');
           this.$emit('updateProfile');
+          this.$store.commit('SET_ACTIVE_TOOLTIP', {
+            msgTooltip: 'Данные успешно изменены',
+            typeTooltip: 'success'
+          });
         },
-        // eslint-disable-next-line
-        (e) => console.log(e.message)
+        (e) => {
+          this.$store.commit('SET_ACTIVE_TOOLTIP', {
+            msgTooltip: e.message,
+            typeTooltip: 'error'
+          });
+        }
       )
     }
   }

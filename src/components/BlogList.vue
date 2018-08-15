@@ -35,7 +35,24 @@ export default {
         text: this.textNewPost,
         pubdate: Date.now(),
         author: firebase.auth().currentUser.displayName
-      });
+      }).then(
+        () => {
+          this.$store.commit('SET_ACTIVE_TOOLTIP', {
+            msgTooltip: 'Пост успешно добавлен',
+            typeTooltip: 'success'
+          });
+          this.$store.commit('SET_CURRENT_PAGE', {
+            numPage: this.$store.state.countPage
+          });
+          this.$router.push('/home/' + this.$store.staet.countPage);
+        },
+        (e) => {
+          this.$store.commit('SET_ACTIVE_TOOLTIP', {
+            msgTooltip: e.message,
+            typeTooltip: 'error'
+          });
+        }
+      )
       this.textNewPost = '';
     }
   },

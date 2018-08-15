@@ -24,7 +24,7 @@ export default {
       firebase.auth().currentUser.reauthenticateAndRetrieveDataWithCredential(credential).then(
         () => {
           firebase.auth().currentUser.updatePassword(data.newPassword);
-          console.log('success change pssword');
+          console.log('success change password');
           resolve();
         },
         (e) => {

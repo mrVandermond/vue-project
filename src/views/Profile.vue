@@ -67,7 +67,20 @@ export default {
       let file = document.querySelector('.profile__input').files[0];
       this.$store.dispatch('uploadPhoto', {
         file: file
-      });
+      }).then(
+        () => {
+          this.$store.commit('SET_ACTIVE_TOOLTIP', {
+            msgTooltip: 'Фотография успешно изменена',
+            typeTooltip: 'success'
+          });
+        },
+        (e) => {
+          this.$store.commit('SET_ACTIVE_TOOLTIP', {
+            msgTooltip: e.message,
+            typeTooltip: 'error'
+          });
+        }
+      )
     }
   },
   beforeMount () {
