@@ -32,63 +32,69 @@
 </template>
 
 <script>
-import ProfileEdit from '@/components/ProfileEdit'
-import ProfileChangePassword from '@/components/ProfileChangePassword'
-import firebase from 'firebase'
+import ProfileEdit from "@/components/ProfileEdit";
+import ProfileChangePassword from "@/components/ProfileChangePassword";
+import firebase from "firebase";
 
 export default {
-  data () {
+  data() {
     return {
-      userName: firebase.auth().currentUser.displayName || 'Имя пользователя',
-      userEmail: firebase.auth().currentUser.email || 'Email пользователя'
-    }
+      userName: firebase.auth().currentUser.displayName || "Имя пользователя",
+      userEmail: firebase.auth().currentUser.email || "Email пользователя"
+    };
   },
   components: {
     ProfileEdit,
     ProfileChangePassword
   },
   computed: {
-    userPhotoURL () {
-      return this.$store.state.userPhotoURL == '' ? false : this.$store.state.userPhotoURL;
+    userPhotoURL() {
+      return this.$store.state.userPhotoURL == ""
+        ? false
+        : this.$store.state.userPhotoURL;
     }
   },
   methods: {
-    activeEdit () {
-      this.$store.commit('SET_ACTIVE_EDIT');
+    activeEdit() {
+      this.$store.commit("SET_ACTIVE_EDIT");
     },
-    activeChangePassword () {
-      this.$store.commit('SET_ACTIVE_CHANGE_PASSWORD');
+    activeChangePassword() {
+      this.$store.commit("SET_ACTIVE_CHANGE_PASSWORD");
     },
-    updateProfile () {
-      this.userName = firebase.auth().currentUser.displayName || 'Имя пользователя';
-      this.userEmail = firebase.auth().currentUser.email || 'Email пользователя';
+    updateProfile() {
+      this.userName =
+        firebase.auth().currentUser.displayName || "Имя пользователя";
+      this.userEmail =
+        firebase.auth().currentUser.email || "Email пользователя";
     },
-    changePhoto () {
-      let file = document.querySelector('.profile__input').files[0];
-      this.$store.dispatch('uploadPhoto', {
-        file: file
-      }).then(
-        () => {
-          this.$store.commit('SET_ACTIVE_TOOLTIP', {
-            msgTooltip: 'Фотография успешно изменена',
-            typeTooltip: 'success'
-          });
-        },
-        (e) => {
-          this.$store.commit('SET_ACTIVE_TOOLTIP', {
-            msgTooltip: e.message,
-            typeTooltip: 'error'
-          });
-        }
-      )
+    changePhoto() {
+      let file = document.querySelector(".profile__input").files[0];
+      this.$store
+        .dispatch("uploadPhoto", {
+          file: file
+        })
+        .then(
+          () => {
+            this.$store.commit("SET_ACTIVE_TOOLTIP", {
+              msgTooltip: "Фотография успешно изменена",
+              typeTooltip: "success"
+            });
+          },
+          e => {
+            this.$store.commit("SET_ACTIVE_TOOLTIP", {
+              msgTooltip: e.message,
+              typeTooltip: "error"
+            });
+          }
+        );
     }
   },
-  beforeMount () {
-    this.$store.commit('SET_USER_PHOTO_URL', {
+  beforeMount() {
+    this.$store.commit("SET_USER_PHOTO_URL", {
       photoURL: firebase.auth().currentUser.photoURL
     });
   }
-}
+};
 </script>
 
 <style>

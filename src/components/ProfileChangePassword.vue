@@ -28,60 +28,62 @@
 </template>
 
 <script>
-import Tooltip from '@/components/Tooltip'
+import Tooltip from "@/components/Tooltip";
 
 export default {
-  data () {
+  data() {
     return {
-      oldPassword: '',
-      newPassword: '',
-      repeatNewPassword: '',
-    }
+      oldPassword: "",
+      newPassword: "",
+      repeatNewPassword: ""
+    };
   },
   components: {
     Tooltip
   },
   methods: {
-    changePassword () {
+    changePassword() {
       if (this.newPassword === this.repeatNewPassword) {
         if (this.newPassword.length < 6) {
-          this.$store.commit('SET_ACTIVE_TOOLTIP', {
-            msgTooltip: 'Пароль должен быть не менее 6 символов',
-            typeTooltip: 'error'
+          this.$store.commit("SET_ACTIVE_TOOLTIP", {
+            msgTooltip: "Пароль должен быть не менее 6 символов",
+            typeTooltip: "error"
           });
         } else {
-          this.$store.dispatch('changePassword', {
-            newPassword: this.newPassword,
-            oldPassword: this.oldPassword
-          }).then(
-            () => {
-              this.oldPassword = '';
-              this.newPassword = '';
-              this.repeatNewPassword = '';
-              this.$store.commit('SET_ACTIVE_TOOLTIP', {
-                msgTooltip: 'Пароль успешно изменен',
-                typeTooltip: 'success'
-              });
-            },
-            (e) => {
-              if (e.code == 'auth/wrong-password') {
-                this.$store.commit('SET_ACTIVE_TOOLTIP', {
-                  msgTooltip: 'Старый пароль был введен неправильно',
-                  typeTooltip: 'error'
+          this.$store
+            .dispatch("changePassword", {
+              newPassword: this.newPassword,
+              oldPassword: this.oldPassword
+            })
+            .then(
+              () => {
+                this.oldPassword = "";
+                this.newPassword = "";
+                this.repeatNewPassword = "";
+                this.$store.commit("SET_ACTIVE_TOOLTIP", {
+                  msgTooltip: "Пароль успешно изменен",
+                  typeTooltip: "success"
                 });
+              },
+              e => {
+                if (e.code == "auth/wrong-password") {
+                  this.$store.commit("SET_ACTIVE_TOOLTIP", {
+                    msgTooltip: "Старый пароль был введен неправильно",
+                    typeTooltip: "error"
+                  });
+                }
               }
-            }
-          );
+            );
         }
       } else {
-        this.$store.commit('SET_ACTIVE_TOOLTIP', {
-          msgTooltip: 'Пароли не совпадают',
-          typeTooltip: 'error'
+        this.$store.commit("SET_ACTIVE_TOOLTIP", {
+          msgTooltip: "Пароли не совпадают",
+          typeTooltip: "error"
         });
       }
     }
   }
-}
+};
 </script>
 
 <style>

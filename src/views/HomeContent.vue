@@ -15,52 +15,58 @@
         >next &gt;</router-link>
       <a class="blog__right-pagination_disabled" disabled v-else>next &gt;</a>
     </div>
-    <router-view/>
   </div>
   <img src="@/assets/preloader.gif" alt="preloader" class="blog__preloader" v-else>
 </template>
 
 <script>
-import BlogItem from '@/components/BlogItem'
+import BlogItem from "@/components/BlogItem";
 
 export default {
-  data () {
+  data() {
     return {
-      textNewPost: ''
-    }
+      textNewPost: ""
+    };
   },
   components: {
     BlogItem
   },
   computed: {
-    currentPage () {
+    currentPage() {
       return this.$store.state.currentPage;
     },
-    countPage () {
+    countPage() {
       return this.$store.state.countPage;
     },
-    leftPage () {
-      return String(this.currentPage == 1 ? this.currentPage : this.currentPage - 1);
+    leftPage() {
+      return String(
+        this.currentPage == 1 ? this.currentPage : this.currentPage - 1
+      );
     },
-    rightPage () {
-      return String(this.currentPage == this.countPage ? this.countPage : this.currentPage + 1);
+    rightPage() {
+      return String(
+        this.currentPage == this.countPage
+          ? this.countPage
+          : this.currentPage + 1
+      );
     },
-    isActiveLeftPage () {
+    isActiveLeftPage() {
       return this.currentPage == 1 ? false : true;
     },
-    isActiveRightPage () {
+    isActiveRightPage() {
       return this.currentPage == this.countPage ? false : true;
     }
   },
-  beforeRouteUpdate (to, from, next) {
-    var typeClick = 'left';
-    if (Number(to.params.page) > this.$store.state.currentPage) typeClick = 'right';
-    this.$store.dispatch('getPost', {
+  beforeRouteUpdate(to, from, next) {
+    var typeClick = "left";
+    if (Number(to.params.page) > this.$store.state.currentPage)
+      typeClick = "right";
+    this.$store.dispatch("getPost", {
       typeClick: typeClick
     });
     next();
   }
-}
+};
 </script>
 
 <style>
@@ -123,7 +129,7 @@ export default {
   font-size: 18px;
   color: #0c4f86;
   border: 1px solid #0c4f86;
-  border-radius: 2px; 
+  border-radius: 2px;
   padding: 5px;
 }
 .blog__left-pagination:hover,
@@ -138,6 +144,6 @@ export default {
 }
 .blog__left-pagination_disabled:hover,
 .blog__right-pagination_disabled:hover {
-  background-color: hsla(0, 0%, 47%, 0.473);
+  background-color: rgba(119, 119, 119, 0.473);
 }
 </style>

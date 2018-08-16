@@ -12,15 +12,15 @@ export default {
     post: Object
   },
   computed: {
-    getDate () {
+    getDate() {
       let date = new Date(this.post.pubdate);
-      let day = ('00' + date.getDate()).slice(-2);
-      let month = ('00' + date.getMonth()).slice(-2);
+      let day = ("00" + date.getDate()).slice(-2);
+      let month = ("00" + date.getMonth()).slice(-2);
       let year = date.getFullYear();
-      return day + '.' + month + '.' + year;
+      return day + "." + month + "." + year;
     }
   }
-}
+};
 </script>
 
 <style>

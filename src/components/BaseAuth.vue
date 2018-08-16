@@ -16,29 +16,29 @@ export default {
   props: {
     nameAuth: String,
     msg: Object,
-    pathLink: String,
+    pathLink: String
   },
-  data () {
+  data() {
     return {
-      email: '',
-      password: ''
-    }
+      email: "",
+      password: ""
+    };
   },
   computed: {
-    isActiveMsg () {
+    isActiveMsg() {
       return !this.$store.state.isActiveMsg;
     }
   },
   methods: {
-    auth () {
-      this.$store.commit('SET_ACTIVE_MSG');
-      this.$emit('auth', {
+    auth() {
+      this.$store.commit("SET_ACTIVE_MSG");
+      this.$emit("auth", {
         email: this.email,
         password: this.password
       });
     }
   }
-}
+};
 </script>
 
 

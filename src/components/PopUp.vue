@@ -7,25 +7,28 @@
 </template>
 
 <script>
-import firebase from 'firebase/app'
+import firebase from "firebase/app";
 
 export default {
   methods: {
-    confirm () {
-      firebase.auth().signOut().then(() => {
-        this.$store.commit('SET_ACTIVE_POPUP', {
-          msgPopUp: ''
+    confirm() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$store.commit("SET_ACTIVE_POPUP", {
+            msgPopUp: ""
+          });
+          this.$router.replace("/login");
         });
-        this.$router.replace('/login');
-      })
     },
-    cancel () {
-      this.$store.commit('SET_ACTIVE_POPUP', {
-        msgPopUp: ''
+    cancel() {
+      this.$store.commit("SET_ACTIVE_POPUP", {
+        msgPopUp: ""
       });
     }
   }
-}
+};
 </script>
 
 <style>
@@ -40,7 +43,7 @@ export default {
   left: 50%;
   margin-top: -150px;
   margin-left: -125px;
-  z-index: 100;  
+  z-index: 100;
   background-color: #fff;
   border: 1px solid #0c4f86;
   border-radius: 5px;

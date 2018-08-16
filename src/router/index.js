@@ -1,64 +1,45 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import firebase from 'firebase'
+import Vue from "vue";
+import Router from "vue-router";
+import firebase from "firebase";
 
-import Login from '@/views/Login'
-import SignUp from '@/views/SignUp'
-import Home from '@/views/Home'
-import HomeContent from '@/views/HomeContent'
-import Profile from '@/views/Profile'
-import BlogList from '@/components/BlogList'
+import Login from "@/views/Login";
+import SignUp from "@/views/SignUp";
+import Home from "@/views/Home";
+import HomeContent from "@/views/HomeContent";
+import Profile from "@/views/Profile";
+import Blog from "@/components/Blog";
 
-Vue.use(Router)
+Vue.use(Router);
 
 let router = new Router({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
   routes: [
-    {path: '*', redirect: '/login'},
-    {path: '/', redirect: '/login'},
-    {path: '/login', name: 'login', component: Login},
-    {path: '/sign-up', name: 'sign-up', component: SignUp},
-    {path: '/home', component: Home, meta: {requiresAuth: true},
+    { path: "*", redirect: "/login" },
+    { path: "/", redirect: "/login" },
+    { path: "/login", name: "login", component: Login },
+    { path: "/sign-up", name: "sign-up", component: SignUp },
+    {
+      path: "/home",
+      component: Home,
+      meta: { requiresAuth: true },
       children: [
-        {
-          path: 'profile',
-          name: 'profile',
-          component: Profile
-        },
-        {
-          path: '',
-          component: HomeContent,
-          children: [
-            {
-              path: '',
-              name: 'home',
-              redirect: '1',
-              meta: {
-                blog: true
-              }
-            },
-            {
-              path: ':page',
-              component: BlogList,
-              meta: {
-                blog: true
-              }
-            }
-          ]
-        }
+        { path: "", name: "home", component: HomeContent },
+        { path: "profile", name: "profile", component: Profile },
+        { path: "blog", redirect: "blog/1" },
+        { path: "blog/:page", component: Blog }
       ]
     }
   ]
-})
+});
 
 router.beforeEach((to, from, next) => {
   let user = firebase.auth().currentUser;
   let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
-  if (requiresAuth && !user) next('login')
-  else if (!requiresAuth && user) next('home')
-  else next()
-})
+  if (requiresAuth && !user) next("login");
+  else if (!requiresAuth && user) next("home");
+  else next();
+});
 
-export default router
+export default router;

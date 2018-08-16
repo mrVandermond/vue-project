@@ -7,7 +7,10 @@
             <router-link class="menu__link" v-bind:to="{name: 'home'}">Главная</router-link>
           </li>
           <li class="menu__item">
-            <router-link class="menu__link" v-bind:to="{name: 'profile'}">Профиль</router-link>
+            <router-link class="menu__link" to="/home/profile">Профиль</router-link>
+          </li>
+          <li class="menu__item">
+            <router-link class="menu__link" to="/home/blog">Блог</router-link>
           </li>
           <li class="menu__item">
             <a class="home__logout menu__link" v-on:click="logout">Выйти</a>
@@ -35,11 +38,11 @@
 </template>
 
 <script>
-import Tooltip from '@/components/Tooltip'
-import PopUp from '@/components/PopUp'
-import firebase from 'firebase/app'
+import Tooltip from "@/components/Tooltip";
+import PopUp from "@/components/PopUp";
+import firebase from "firebase/app";
 
-var path = window.location.pathname.split('/');
+var path = window.location.pathname.split("/");
 var numPage = Number(path[path.length - 1]);
 var componentName = path[path.length - 2];
 
@@ -49,34 +52,37 @@ export default {
     PopUp
   },
   methods: {
-    logout () {
-      this.$store.commit('SET_ACTIVE_POPUP', {
-        msgPopUp: 'Подтвердите выход'
+    logout() {
+      this.$store.commit("SET_ACTIVE_POPUP", {
+        msgPopUp: "Подтвердите выход"
       });
     }
   },
   // reset current page to 1
-  beforeRouteUpdate (to, from, next) {
+  beforeRouteUpdate(to, from, next) {
     if (!to.meta.blog) {
-      this.$store.commit('SET_CURRENT_PAGE', {
+      this.$store.commit("SET_CURRENT_PAGE", {
         numPage: 1
-      })
+      });
     }
     next();
   },
-  beforeMount () {
-    this.$store.dispatch('getCountPost');
-    firebase.database().ref('/posts/').on('child_added', () => {
-      this.$store.dispatch('getCountPost');
-    });
+  beforeMount() {
+    this.$store.dispatch("getCountPost");
+    firebase
+      .database()
+      .ref("/posts/")
+      .on("child_added", () => {
+        this.$store.dispatch("getCountPost");
+      });
 
-    if (componentName == 'home' && this.$store.state.currentPage != numPage) {
-      this.$store.commit('SET_CURRENT_PAGE', {
+    if (componentName == "home" && this.$store.state.currentPage != numPage) {
+      this.$store.commit("SET_CURRENT_PAGE", {
         numPage: numPage
-      })
+      });
     }
   }
-}
+};
 </script>
 
 <style>

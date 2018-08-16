@@ -8,41 +8,43 @@
 </template>
 
 <script>
-import BaseAuth from '@/components/BaseAuth'
-import firebase from 'firebase'
+import BaseAuth from "@/components/BaseAuth";
+import firebase from "firebase";
 
 export default {
-  data () {
+  data() {
     return {
-      nameAuth: 'Регистрация',
+      nameAuth: "Регистрация",
       msg: {
-        msgButton: 'Регистрация',
-        msgText: 'Вы уже зарегестрированы? Тогда ',
-        msgLink: 'Войдите'
+        msgButton: "Регистрация",
+        msgText: "Вы уже зарегестрированы? Тогда ",
+        msgLink: "Войдите"
       },
-      pathLink: '/login',
-    }
+      pathLink: "/login"
+    };
   },
   components: {
     BaseAuth
   },
   methods: {
-    auth (data) {
-      firebase.auth().createUserWithEmailAndPassword(data.email, data.password).then(
-        () => {
-          this.$router.replace('login');
-          this.$store.commit('SET_ACTIVE_MSG');          
-        },
-        (e) => {
-          this.$store.commit('SET_ACTIVE_MSG');
-          alert('Oops' + e.message);
-        }
-      )
+    auth(data) {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(data.email, data.password)
+        .then(
+          () => {
+            this.$router.replace("login");
+            this.$store.commit("SET_ACTIVE_MSG");
+          },
+          e => {
+            this.$store.commit("SET_ACTIVE_MSG");
+            alert("Oops" + e.message);
+          }
+        );
     }
   }
-}
+};
 </script>
 
 <style>
-
 </style>

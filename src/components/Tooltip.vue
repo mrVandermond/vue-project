@@ -7,36 +7,37 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       timerId: 0
-    }
+    };
   },
   computed: {
-    typeTooltip () {
-      if (this.$store.state.typeTooltip == 'error') return 'tooltip__error';
-      else if (this.$store.state.typeTooltip == 'success') return 'tooltip__success';
+    typeTooltip() {
+      if (this.$store.state.typeTooltip == "error") return "tooltip__error";
+      else if (this.$store.state.typeTooltip == "success")
+        return "tooltip__success";
     }
   },
   methods: {
-    closeTooltip () {
+    closeTooltip() {
       clearTimeout(this.timerId);
-      this.$store.commit('SET_ACTIVE_TOOLTIP', {
-        msgTooltip: '',
-        typeTooltip: ''
+      this.$store.commit("SET_ACTIVE_TOOLTIP", {
+        msgTooltip: "",
+        typeTooltip: ""
       });
     }
   },
-  mounted () {
+  mounted() {
     let id = setTimeout(() => {
-      this.$store.commit('SET_ACTIVE_TOOLTIP', {
-        msgTooltip: '',
-        typeTooltip: ''
+      this.$store.commit("SET_ACTIVE_TOOLTIP", {
+        msgTooltip: "",
+        typeTooltip: ""
       });
     }, this.$store.state.timeAliveTooltip);
     this.timerId = id;
   }
-}
+};
 </script>
 
 <style>

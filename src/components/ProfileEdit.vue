@@ -19,39 +19,41 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from "firebase";
 
 export default {
-  data () {
+  data() {
     return {
-      newUserName: firebase.auth().currentUser.displayName || '',
-      newUserEmail: firebase.auth().currentUser.email || ''
-    }
+      newUserName: firebase.auth().currentUser.displayName || "",
+      newUserEmail: firebase.auth().currentUser.email || ""
+    };
   },
   methods: {
-    updateProfile () {
-      this.$store.dispatch('updateProfile', {
-        displayName: this.newUserName,
-        email: this.newUserEmail
-      }).then(
-        () => {
-          this.$store.commit('SET_ACTIVE_EDIT');
-          this.$emit('updateProfile');
-          this.$store.commit('SET_ACTIVE_TOOLTIP', {
-            msgTooltip: 'Данные успешно изменены',
-            typeTooltip: 'success'
-          });
-        },
-        (e) => {
-          this.$store.commit('SET_ACTIVE_TOOLTIP', {
-            msgTooltip: e.message,
-            typeTooltip: 'error'
-          });
-        }
-      )
+    updateProfile() {
+      this.$store
+        .dispatch("updateProfile", {
+          displayName: this.newUserName,
+          email: this.newUserEmail
+        })
+        .then(
+          () => {
+            this.$store.commit("SET_ACTIVE_EDIT");
+            this.$emit("updateProfile");
+            this.$store.commit("SET_ACTIVE_TOOLTIP", {
+              msgTooltip: "Данные успешно изменены",
+              typeTooltip: "success"
+            });
+          },
+          e => {
+            this.$store.commit("SET_ACTIVE_TOOLTIP", {
+              msgTooltip: e.message,
+              typeTooltip: "error"
+            });
+          }
+        );
     }
   }
-}
+};
 </script>
 
 <style>

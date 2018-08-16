@@ -1,10 +1,10 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import mutations from './mutations'
-import actions from './actions'
-import getters from './getters'
+import Vue from "vue";
+import Vuex from "vuex";
+import mutations from "./mutations";
+import actions from "./actions";
+import getters from "./getters";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   strict: true,
@@ -19,14 +19,14 @@ export default new Vuex.Store({
     currentPage: 1,
     currentIndexPost: 1,
     postList: {},
-    userPhotoURL: '',
+    userPhotoURL: "",
     timeAliveTooltip: 2000,
     isActiveTooltip: false,
-    msgTooltip: '',
-    typeTooltip: '',
-    msgPopUp: ''
+    msgTooltip: "",
+    typeTooltip: "",
+    msgPopUp: ""
   },
   mutations,
   actions,
   getters
-})
+});
