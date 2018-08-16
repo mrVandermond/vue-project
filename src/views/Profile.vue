@@ -22,10 +22,11 @@
       </div>
       <ProfileEdit
         v-if="$store.state.isActiveEdit"
-        v-on:updateProfile="updateProfile"/>
+        v-on:updateProfile="updateProfile"
+      />
       <ProfileChangePassword
         v-if="$store.state.isActiveChangePassword"
-        />
+      />
     </div>
     <div class="profile__clearfix"></div>
   </div>
