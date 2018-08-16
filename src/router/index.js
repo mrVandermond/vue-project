@@ -7,7 +7,7 @@ import SignUp from "@/views/SignUp";
 import Home from "@/views/Home";
 import HomeContent from "@/views/HomeContent";
 import Profile from "@/views/Profile";
-import Blog from "@/components/Blog";
+import Blog from "@/views/Blog";
 
 Vue.use(Router);
 

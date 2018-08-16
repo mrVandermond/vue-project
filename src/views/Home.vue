@@ -23,7 +23,9 @@
         <Tooltip
           v-if="$store.state.isActiveTooltip"/>
       </transition>
-      <router-view/>
+      <transition name="item-menu">
+        <router-view/>
+      </transition>
     </div>
     <transition name="popup">
       <PopUp
@@ -40,11 +42,6 @@
 <script>
 import Tooltip from "@/components/Tooltip";
 import PopUp from "@/components/PopUp";
-import firebase from "firebase/app";
-
-var path = window.location.pathname.split("/");
-var numPage = Number(path[path.length - 1]);
-var componentName = path[path.length - 2];
 
 export default {
   components: {
@@ -55,30 +52,6 @@ export default {
     logout() {
       this.$store.commit("SET_ACTIVE_POPUP", {
         msgPopUp: "Подтвердите выход"
-      });
-    }
-  },
-  // reset current page to 1
-  beforeRouteUpdate(to, from, next) {
-    if (!to.meta.blog) {
-      this.$store.commit("SET_CURRENT_PAGE", {
-        numPage: 1
-      });
-    }
-    next();
-  },
-  beforeMount() {
-    this.$store.dispatch("getCountPost");
-    firebase
-      .database()
-      .ref("/posts/")
-      .on("child_added", () => {
-        this.$store.dispatch("getCountPost");
-      });
-
-    if (componentName == "home" && this.$store.state.currentPage != numPage) {
-      this.$store.commit("SET_CURRENT_PAGE", {
-        numPage: numPage
       });
     }
   }
@@ -160,6 +133,23 @@ export default {
 }
 .popup-overlay-enter-to,
 .popup-overlay-leave {
+  opacity: 1;
+}
+.item-menu-enter-active,
+.item-menu-leave-active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - 20px);
+  padding: 10px;
+  transition: 0.3s;
+}
+.item-menu-enter,
+.item-menu-leave-to {
+  opacity: 0;
+}
+.item-menu-enter-to,
+.item-menu-leave {
   opacity: 1;
 }
 </style>
