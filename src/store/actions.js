@@ -108,6 +108,20 @@ export default {
         });
     });
   },
+  getLastPost({ state, commit }) {
+    return new Promise((resolve, reject) => {
+      if (!database) reject();
+      database()
+        .ref("posts")
+        .orderByChild("pubdate")
+        .limitToLast(state.countLastPost)
+        .on("value", snapshot => {
+          let posts = snapshot.exportVal();
+          commit("SET_ACTIVE_LAST_POSTS", { posts: posts });
+          resolve();
+        });
+    });
+  },
   uploadPhoto({ commit }, data) {
     return new Promise((resolve, reject) => {
       storage()

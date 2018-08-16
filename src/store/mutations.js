@@ -45,6 +45,9 @@ export default {
   SET_ACTIVE_POSTS(state, data) {
     state.postList = data.posts;
   },
+  SET_ACTIVE_LAST_POSTS(state, data) {
+    state.lastPostList = data.posts;
+  },
   SET_USER_PHOTO_URL(state, data) {
     state.userPhotoURL = data.photoURL;
   }

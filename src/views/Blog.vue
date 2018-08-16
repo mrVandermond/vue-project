@@ -5,14 +5,14 @@
         class="blog__left-pagination"
         v-if="isActiveLeftPage"
         v-bind:to="'/home/blog/' + leftPage"
-        >&lt; prev</router-link>
+      >&lt; prev</router-link>
       <a class="blog__left-pagination_disabled" disabled v-else>&lt; prev</a>
       <span class="blog__count-page">{{ currentPage }} / {{ countPage }}</span>
       <router-link
         class="blog__right-pagination"
         v-if="isActiveRightPage"
         v-bind:to="'/home/blog/' + rightPage"
-        >next &gt;</router-link>
+      >next &gt;</router-link>
       <a class="blog__right-pagination_disabled" disabled v-else>next &gt;</a>
     </div>
       <transition v-bind:name="transition">
